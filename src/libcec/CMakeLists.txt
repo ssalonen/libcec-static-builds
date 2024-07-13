@@ -203,17 +203,15 @@ endif(MSVC)
 if(WIN32)
   if(MSVC)
     # generate pdb in release mode too
-    set_target_properties(cec-static
+    set_target_properties(cec
       PROPERTIES
-      COMPILE_PDB_NAME_DEBUG cec-static${CMAKE_DEBUG_POSTFIX}
-      COMPILE_PDB_NAME_RELEASE cec-static
-      COMPILE_PDB_NAME_MINSIZEREL cec-static
-      COMPILE_PDB_NAME_RELWITHDEBINFO cec-static)
+      COMPILE_PDB_NAME_DEBUG cec${CMAKE_DEBUG_POSTFIX}
+      COMPILE_PDB_NAME_RELEASE cec
+      COMPILE_PDB_NAME_MINSIZEREL cec
+      COMPILE_PDB_NAME_RELWITHDEBINFO cec)
 
     # install generated pdb
     install(FILES $<TARGET_FILE_DIR:cec>/cec.pdb
-      DESTINATION "${CMAKE_INSTALL_LIBDIR}")
-    install(FILES $<TARGET_FILE_DIR:cec-static>/cec-static.pdb
       DESTINATION "${CMAKE_INSTALL_LIBDIR}")
   endif(MSVC)
 endif(WIN32)
