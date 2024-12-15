@@ -22,7 +22,7 @@ esac
 
 # from https://stackoverflow.com/questions/28678505/add-command-arguments-using-inline-if-statement-in-bash
 args=()
-[[ "$HAVE_LINUX_API" == "1" ]] && args+=( '-DHAVE_LINUX_API=1' )
+[[ "$HAVE_LINUX_API" == "true" ]] && args+=( '-DHAVE_LINUX_API=1' )
 args+=( "-D" "CMAKE_BUILD_TYPE=$cmake_build_type" "-D" "BUILD_STATIC_LIB=True" "-D" "CMAKE_CXX_STANDARD=11" "-Wno-dev" )
 echo "${args[@]}"
 
