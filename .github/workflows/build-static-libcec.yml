@@ -112,6 +112,31 @@ jobs:
             name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
             path: ${{ steps.build_libcec.outputs.binary_path }}
             if-no-files-found: error
+    
+    build-linux-arm:
+      if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+      runs-on: ubuntu-latest
+
+      strategy:
+        fail-fast: true
+        matrix:
+          docker_image: 
+            - ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:main
+          build_type: [release, debug]
+      
+      container:
+          image: matrix.docker_image
+        
+      steps:
+        # Enable tmate debugging of manually-triggered workflows if the input option was provided
+        - name: Setup tmate session
+          uses: mxschmitt/action-tmate@v3
+          if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+          with:
+            detached: true
+
+        - name: Checkout repo
+          uses: actions/checkout@v4
 
     release:
       runs-on: ubuntu-latest
