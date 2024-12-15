@@ -22,9 +22,9 @@ runs:
  
     - name: Build libcec
       shell: bash
-      run: $GITHUB_ACTION_PATH/build.sh '${{ github.workspace }}/libcec' '${{ matrix.build_type }}'
+      run: $GITHUB_ACTION_PATH/build.sh './libcec' '${{ matrix.build_type }}'
 
     - name: Set output
       id: set_output
       shell: bash
-      run: echo "binary_path=${{ github.workspace }}/libcec/dist" >> $GITHUB_OUTPUT
+      run: echo "binary_path=./libcec/dist" >> $GITHUB_OUTPUT
