@@ -7,7 +7,7 @@ env:
   visual_studio_version: 2019
   libcec_version: 6.0.2  # version of libcec this fork is based on
 
-on: 
+on:
   workflow_dispatch:
     inputs:
       debug_enabled:
@@ -19,13 +19,13 @@ on:
 jobs:
     build-windows:
       runs-on: windows-latest
-  
+
       strategy:
         fail-fast: false
         matrix:
           arch: [x86_64]
           build_type: [release, debug]
-  
+
       steps:
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
         - name: Setup tmate session
@@ -35,56 +35,56 @@ jobs:
             detached: true
         - name: Checkout repo
           uses: actions/checkout@v4
-  
+
         - name: Build libcec
           id: build_libcec
           uses: ./.github/actions/build-static-libcec-windows
           with:
             build_type: ${{ matrix.build_type }}
             visual_studio_version: ${{ env.visual_studio_version }}
-  
+
         - name: Upload build artifacts
           uses: actions/upload-artifact@v4
           with:
             name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-pc-windows-msvc-${{ matrix.build_type }}
             path: ${{ steps.build_libcec.outputs.binary_path }}
             if-no-files-found: error
-  
+
     build-macos:
       runs-on: macos-latest
-  
+
       strategy:
         fail-fast: false
         matrix:
           arch: [aarch64]
           build_type: [release, debug]
-  
+
       steps:
         - name: Checkout repo
           uses: actions/checkout@v4
-  
+
         - name: Build libcec
           id: build_libcec
           uses: ./.github/actions/build-static-libcec-unix
           with:
             build_type: ${{ matrix.build_type }}
-  
+
         - name: Upload build artifacts
           uses: actions/upload-artifact@v4
           with:
             name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-apple-darwin-${{ matrix.build_type }}
             path: ${{ steps.build_libcec.outputs.binary_path }}
             if-no-files-found: error
-  
+
     build-linux:
       runs-on: ubuntu-latest
-  
+
       strategy:
         fail-fast: false
         matrix:
           arch: [x86_64]
           build_type: [release, debug]
-  
+
       steps:
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
         - name: Setup tmate session
@@ -92,22 +92,27 @@ jobs:
           if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
           with:
             detached: true
+
         - name: Checkout repo
           uses: actions/checkout@v4
-  
+
+        - name: Install libudev-dev & pkg-config as libcec build dependencies
+          run: sudo apt-get install -yq libudev-dev pkg-config
+          shell: bash
+
         - name: Build libcec
           id: build_libcec
           uses: ./.github/actions/build-static-libcec-unix
           with:
             build_type: ${{ matrix.build_type }}
-  
+
         - name: Upload build artifacts
           uses: actions/upload-artifact@v4
           with:
             name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
             path: ${{ steps.build_libcec.outputs.binary_path }}
             if-no-files-found: error
-  
+
     release:
       runs-on: ubuntu-latest
       needs: [build-windows, build-macos, build-linux]
@@ -116,13 +121,13 @@ jobs:
           uses: actions/download-artifact@v4
           with:
             path: assets
-  
+
         - name: Compress build artifacts
           working-directory: assets
           run: |
             mkdir --verbose ../release
             find * -maxdepth 0 -type d  -print -exec zip -vr ../release/{}.zip {} \;
-  
+
         - name: Publish release
           uses: softprops/action-gh-release@v2
           with:
