@@ -102,12 +102,12 @@ jobs:
           with:
             build_type: ${{ matrix.build_type }}
   
-         - name: Upload build artifacts
-           uses: actions/upload-artifact@v4
-           with:
-             name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
-             path: ${{ steps.build_libcec.outputs.binary_path }}
-             if-no-files-found: error
+        - name: Upload build artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.binary_path }}
+            if-no-files-found: error
   
     release:
       runs-on: ubuntu-latest
