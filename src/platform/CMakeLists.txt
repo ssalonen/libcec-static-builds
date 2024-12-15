@@ -1,4 +1,4 @@
-cmake_minimum_required(VERSION 3.29)
+cmake_minimum_required(VERSION 3.23.1)
 project(p8-platform
   VERSION 2.1.1
   DESCRIPTION "Pulse-Eight platform support library"
