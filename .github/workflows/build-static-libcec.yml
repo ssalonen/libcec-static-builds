@@ -7,8 +7,14 @@ env:
   visual_studio_version: 2019
   libcec_version: 6.0.2
 
-on: workflow_dispatch
-
+on: 
+  workflow_dispatch
+    inputs:
+      debug_enabled:
+        type: boolean
+        description: 'Run the build with tmate debugging enabled (https://github.com/marketplace/actions/debugging-with-tmate)'
+        required: false
+        default: false
 
 jobs:
     build-windows:
@@ -21,6 +27,12 @@ jobs:
           build_type: [release, debug]
   
       steps:
+        # Enable tmate debugging of manually-triggered workflows if the input option was provided
+        - name: Setup tmate session
+          uses: mxschmitt/action-tmate@v3
+          if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+          with:
+            detached: true
         - name: Checkout repo
           uses: actions/checkout@v4
   
@@ -75,6 +87,12 @@ jobs:
           build_type: [release, debug]
   
       steps:
+        # Enable tmate debugging of manually-triggered workflows if the input option was provided
+        - name: Setup tmate session
+          uses: mxschmitt/action-tmate@v3
+          if: ${{ github.event_name == 'workflow_dispatch' && inputs.debug_enabled }}
+          with:
+            detached: true
         - name: Checkout repo
           uses: actions/checkout@v4
   

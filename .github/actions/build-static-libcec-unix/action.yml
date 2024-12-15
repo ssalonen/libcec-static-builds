@@ -19,6 +19,10 @@ runs:
       with:
         path: libcec
         submodules: recursive
+ 
+    - name: Install libudev-dev & pkg-config as libcec build dependencies
+      run: sudo apt-get install -yq libudev-dev pkg-config
+      shell: bash
 
     - name: Build libcec
       shell: bash
