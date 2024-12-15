@@ -6,6 +6,12 @@ inputs:
     description: The build type, either "release" or "debug".
     required: true
 
+  have_linux_api:
+    description: Whether to build libcec with Linux CEC Framework support
+    type: boolean
+    required: false
+    default: false
+
 outputs:
   binary_path:
     description: The freshly-built binary path.
@@ -22,7 +28,9 @@ runs:
  
     - name: Build libcec
       shell: bash
-      run: $GITHUB_ACTION_PATH/build.sh './libcec' '${{ matrix.build_type }}'
+      run: $GITHUB_ACTION_PATH/build.sh './libcec' '${{ inputs.build_type }}'
+      env:
+        HAVE_LINUX_API: "${{ inputs.have_linux_api }}"
 
     - name: Set output
       id: set_output
