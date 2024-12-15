@@ -133,7 +133,7 @@ jobs:
           build_type: [release, debug]
       
       container:
-          image: matrix.docker_image
+          image: ${{ matrix.docker_image }}
         
       steps:
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
