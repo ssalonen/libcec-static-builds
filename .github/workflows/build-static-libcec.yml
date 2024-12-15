@@ -149,6 +149,11 @@ jobs:
         - name: Checkout repo
           uses: actions/checkout@v4
 
+        - name: Install libudev-dev for device detection support
+          run: |
+            dpkg --add-architecture $CROSS_DEB_ARCH
+            apt-get update && apt-get --assume-yes install libudev-dev:$CROSS_DEB_ARCH
+
         - name: Build libcec
           id: build_libcec
           uses: ./.github/actions/build-static-libcec-unix
