@@ -155,7 +155,8 @@ jobs:
         - name: Install libudev-dev for device detection support
           run: |
             dpkg --add-architecture ${{ matrix.targets.deb_arch }}
-            apt-get update && apt-get --assume-yes install libudev-dev:${{ matrix.targets.deb_arch }} || echo "Could not find libudev-udev for this architecture. Device detection is unavailable"
+            apt-get update && apt-get --assume-yes install libudev-dev:${{ matrix.targets.deb_arch }} \
+              || echo "Could not find libudev-udev for this architecture. Libcec device detection might be unavailable"
 
         - name: Build libcec
           id: build_libcec
