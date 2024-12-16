@@ -27,6 +27,7 @@ runs:
         submodules: recursive
     # for git-describe to work, needed to embed version from git tag
     - run: cd libcec && git fetch --prune --unshallow --tags
+      shell: bash
  
     - name: Build libcec
       shell: bash
