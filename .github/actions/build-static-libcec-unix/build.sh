@@ -28,9 +28,10 @@ echo "${args[@]}"
 
 cd "$path"
 # generate platform & libcec "build system" and build them
-cmake -S platform -B build "${args[@]}"
-# build libcec
+cmake -S src/platform -B build "${args[@]}"
 cmake -S . -B build "${args[@]}"
+# build all
+export p8-platform_ROOT=./build
 cmake --build build
 
 mkdir -p dist/include
