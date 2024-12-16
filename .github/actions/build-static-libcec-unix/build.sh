@@ -32,9 +32,8 @@ mkdir platform_build
 cmake -S src/platform -B platform_build "${args[@]}"
 # build all
 ls -R platform_build
-export p8-platform_ROOT=./platform_build
-cmake -S . -B build "${args[@]}"
-cmake --build build
+env 'p8-platform_ROOT ./platform_build' cmake -S . -B build "${args[@]}"
+env 'p8-platform_ROOT ./platform_build' cmake --build build
 
 mkdir -p dist/include
 ls -R build
