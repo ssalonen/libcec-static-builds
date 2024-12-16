@@ -129,14 +129,17 @@ jobs:
       strategy:
         fail-fast: true
         matrix:
-          docker_image: 
-            - ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:main
-            - ghcr.io/cross-rs/arm-unknown-linux-gnueabi:main
-            - ghcr.io/cross-rs/aarch64-unknown-linux-gnu:main
+          targets: 
+            - docker_image: ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:main
+              deb_arch: armhf
+            - docker_image: ghcr.io/cross-rs/arm-unknown-linux-gnueabi:main
+              deb_arch: armel
+            - docker_image: ghcr.io/cross-rs/aarch64-unknown-linux-gnu:main
+              deb_arch: arm64
           build_type: [release, debug]
       
       container:
-          image: ${{ matrix.docker_image }}
+          image: ${{ matrix.targets.docker_image }}
         
       steps:
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
@@ -151,8 +154,8 @@ jobs:
 
         - name: Install libudev-dev for device detection support
           run: |
-            dpkg --add-architecture $CROSS_DEB_ARCH
-            apt-get update && apt-get --assume-yes install libudev-dev:$CROSS_DEB_ARCH
+            dpkg --add-architecture ${{ matrix.targets.deb_arch }}
+            apt-get update && apt-get --assume-yes install libudev-dev:${{ matrix.targets.deb_arch }}
 
         - name: Build libcec
           id: build_libcec
