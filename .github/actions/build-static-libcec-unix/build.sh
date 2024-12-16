@@ -27,6 +27,9 @@ args+=( "-DHAVE_P8_USB=1" "-DHAVE_P8_USB_DETECT=1" "-D" "CMAKE_BUILD_TYPE=$cmake
 echo "${args[@]}"
 
 cd "$path"
+# generate platform & libcec "build system" and build them
+cmake -S platform -B build "${args[@]}"
+# build libcec
 cmake -S . -B build "${args[@]}"
 cmake --build build
 
