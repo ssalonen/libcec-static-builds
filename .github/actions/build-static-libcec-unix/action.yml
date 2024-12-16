@@ -1,0 +1,38 @@
+name: build-static-libcec-unix
+description: Builds static libcec on Unix environments.
+
+inputs:
+  build_type:
+    description: The build type, either "release" or "debug".
+    required: true
+
+  have_linux_api:
+    description: Whether to build libcec with Linux CEC Framework support
+    type: boolean
+    required: false
+    default: false
+
+outputs:
+  binary_path:
+    description: The freshly-built binary path.
+    value: ${{ steps.set_output.outputs.binary_path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Checkout upstream libcec 6.0.2
+      uses: actions/checkout@v4
+      with:
+        path: libcec
+        submodules: recursive
+ 
+    - name: Build libcec
+      shell: bash
+      run: $GITHUB_ACTION_PATH/build.sh './libcec' '${{ inputs.build_type }}'
+      env:
+        HAVE_LINUX_API: "${{ inputs.have_linux_api }}"
+
+    - name: Set output
+      id: set_output
+      shell: bash
+      run: echo "binary_path=./libcec/dist" >> $GITHUB_OUTPUT
