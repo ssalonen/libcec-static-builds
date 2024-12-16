@@ -199,25 +199,26 @@ set_target_properties(cec PROPERTIES VERSION   ${LIBCEC_VERSION_MAJOR}.${LIBCEC_
                                      SOVERSION ${LIBCEC_VERSION_MAJOR})
 target_link_libraries(cec ${cec_depends})
 
+if (MSVC)
+  # generate pdb in release mode too
+  set_target_properties(cec
+      PROPERTIES
+      COMPILE_PDB_NAME_DEBUG cec${CMAKE_DEBUG_POSTFIX}
+      COMPILE_PDB_NAME_RELEASE cec
+      COMPILE_PDB_NAME_MINSIZEREL cec
+      COMPILE_PDB_NAME_RELWITHDEBINFO cec)
+endif(MSVC)
+
+# libCEC static target
+add_library(cec-static STATIC ${CEC_SOURCES})
+install(TARGETS cec-static
+        DESTINATION ${LIB_DESTINATION})
+set_target_properties(cec-static PROPERTIES VERSION   ${LIBCEC_VERSION_MAJOR}.${LIBCEC_VERSION_MINOR}.${LIBCEC_VERSION_PATCH}
+                                      SOVERSION ${LIBCEC_VERSION_MAJOR})
+target_link_libraries(cec-static ${cec_depends})
+
+
 if(WIN32)
-  if (MSVC)
-    # generate pdb in release mode too
-    set_target_properties(cec
-        PROPERTIES
-        COMPILE_PDB_NAME_DEBUG cec${CMAKE_DEBUG_POSTFIX}
-        COMPILE_PDB_NAME_RELEASE cec
-        COMPILE_PDB_NAME_MINSIZEREL cec
-        COMPILE_PDB_NAME_RELWITHDEBINFO cec)
-  endif(MSVC)
-
-  # libCEC static target used by .net wrappers
-  add_library(cec-static STATIC ${CEC_SOURCES})
-  install(TARGETS cec-static
-          DESTINATION ${LIB_DESTINATION})
-  set_target_properties(cec-static PROPERTIES VERSION   ${LIBCEC_VERSION_MAJOR}.${LIBCEC_VERSION_MINOR}.${LIBCEC_VERSION_PATCH}
-                                       SOVERSION ${LIBCEC_VERSION_MAJOR})
-  target_link_libraries(cec-static ${cec_depends})
-
   if (MSVC)
     # generate pdb in release mode too
     set_target_properties(cec-static
