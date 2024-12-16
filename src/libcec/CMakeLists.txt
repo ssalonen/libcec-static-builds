@@ -208,15 +208,16 @@ if (MSVC)
       COMPILE_PDB_NAME_RELWITHDEBINFO cec)
 endif(MSVC)
 
-if(WIN32)
-  # libCEC static target used by .net wrappers
-  add_library(cec-static STATIC ${CEC_SOURCES})
-  install(TARGETS cec-static
-          DESTINATION ${LIB_DESTINATION})
-  set_target_properties(cec-static PROPERTIES VERSION   ${LIBCEC_VERSION_MAJOR}.${LIBCEC_VERSION_MINOR}.${LIBCEC_VERSION_PATCH}
-                                       SOVERSION ${LIBCEC_VERSION_MAJOR})
-  target_link_libraries(cec-static ${cec_depends})
+# libCEC static target used by .net wrappers
+add_library(cec-static STATIC ${CEC_SOURCES})
+install(TARGETS cec-static
+        DESTINATION ${LIB_DESTINATION})
+set_target_properties(cec-static PROPERTIES VERSION   ${LIBCEC_VERSION_MAJOR}.${LIBCEC_VERSION_MINOR}.${LIBCEC_VERSION_PATCH}
+                                      SOVERSION ${LIBCEC_VERSION_MAJOR})
+target_link_libraries(cec-static ${cec_depends})
 
+
+if(WIN32)
   if (MSVC)
     # generate pdb in release mode too
     set_target_properties(cec-static
