@@ -104,7 +104,7 @@ jobs:
         - name: Checkout repo
           uses: actions/checkout@v4
         # for git-describe to work, needed to embed version from git tag
-        - run: git fetch --prune --unshallow --tags
+        - run: git fetch --prune --unshallow --tags --recurse-submodules=no
 
         - name: Install libudev-dev & pkg-config as libcec build dependencies
           run: sudo apt-get install -yq libudev-dev pkg-config
@@ -154,7 +154,7 @@ jobs:
         - name: Checkout repo
           uses: actions/checkout@v4
         # for git-describe to work, needed to embed version from git tag
-        - run: git fetch --prune --unshallow --tags
+        - run: git fetch --prune --unshallow --tags --recurse-submodules=no
 
         - name: Install libudev-dev for device detection support
           run: |
