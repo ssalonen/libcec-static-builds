@@ -36,10 +36,10 @@ cmake -S src/platform -B platform_build
 env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build
 
 # same for libcec
-env "p8-platform_ROOT=$PLATFORMBUILD" "p8-platform_DIR=$PLATFORMBUILD/build" "p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" "p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" cmake --debug-output -S src/libcec -B build -DCMAKE_VERBOSE_MAKEFILE=ON "${args[@]}"
+env "p8-platform_ROOT=$PLATFORMBUILD" "p8-platform_DIR=$PLATFORMBUILD/build" "p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" "p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" cmake  --trace -S src/libcec -B build -DCMAKE_VERBOSE_MAKEFILE=ON "${args[@]}"
 env "p8-platform_ROOT=$PLATFORMBUILD" "p8-platform_DIR=$PLATFORMBUILD/build" "p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" "p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" cmake --debug-output -DCMAKE_VERBOSE_MAKEFILE=ON --build build
 
 mkdir -p dist/include
 ls -R build
-find build \( -name '*.a" -o -name '*.so" -o -name '*.dylib" \) -print -exec cp {} dist \;
-find include -name '*.h" -print -exec cp --parents {} dist \;
+find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
+find include -name '*.h' -print -exec cp --parents {} dist \;
