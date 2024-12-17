@@ -47,6 +47,7 @@ cmake \
 mkdir -p dist/include
 ls -R build
 ls -R platform_build
+ls -R src/platform
 
 env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build build
 
