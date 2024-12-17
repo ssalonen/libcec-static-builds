@@ -30,11 +30,12 @@ cd "$path"
 # generate "build system" and then build
 # first for platform
 mkdir platform_build
+PLATFORMBUILD=$(readlink -f platform_build)
 cmake -S src/platform -B platform_build "${args[@]}"
-env 'p8-platform_ROOT=./platform_build' cmake --build platform_build
+env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build
 # same for all
-env 'p8-platform_ROOT=./platform_build' 'p8-platform_DIR=./platform_build/build' 'p8-platform_INCLUDE_DIRS=./platform_build/include' 'p8-platform_LIBRARY=./platform_build/build/libp8-platform.a' cmake -S . -B build "${args[@]}"
-env 'p8-platform_ROOT=./platform_build' 'p8-platform_DIR=./platform_build/build' 'p8-platform_INCLUDE_DIRS=./platform_build/include' 'p8-platform_LIBRARY=./platform_build/build/libp8-platform.a' cmake --build build
+env "p8-platform_ROOT=$PLATFORMBUILD" "p8-platform_DIR=$PLATFORMBUILD/build" "p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" "p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" cmake -S . -B build "${args[@]}"
+env "p8-platform_ROOT=$PLATFORMBUILD" "p8-platform_DIR=$PLATFORMBUILD/build" "p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" "p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" cmake --build build
 
 mkdir -p dist/include
 ls -R build
