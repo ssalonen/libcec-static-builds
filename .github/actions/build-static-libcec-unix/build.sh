@@ -42,13 +42,7 @@ cmake \
  -D"p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" \
  -D"p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" \
  --trace -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON "${args[@]}"
-cmake \
- -D"p8-platform_ROOT=$PLATFORMBUILD" \
- -D"p8-platform_DIR=$PLATFORMBUILD/build" \
- -D"p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" \
- -D"p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" \
- -DCMAKE_VERBOSE_MAKEFILE=ON \
- --trace --build build
+cmake --build build
 
 mkdir -p dist/include
 ls -R build
