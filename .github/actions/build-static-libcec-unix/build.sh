@@ -46,7 +46,9 @@ cmake \
 
 mkdir -p dist/include
 ls -R build
-find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
-find include -name '*.h' -print -exec cp --parents {} dist \;
+ls -R platform_build
 
 env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build build
+
+find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
+find include -name '*.h' -print -exec cp --parents {} dist \;
