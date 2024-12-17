@@ -33,7 +33,8 @@ cd "$path"
 mkdir platform_build
 PLATFORMBUILD=$(readlink -f platform_build)
 cmake -S src/platform -B platform_build
-env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build
+# Also install
+env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build --target install
 
 # same for libcec
 cmake \
@@ -41,7 +42,8 @@ cmake \
  -D"p8-platform_DIR=$PLATFORMBUILD/build" \
  -D"p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" \
  -D"p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" \
- -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON "${args[@]}"
+ -DCMAKE_VERBOSE_MAKEFILE=ON "${args[@]}" \
+ -S . -B build
 
 
 mkdir -p dist/include
