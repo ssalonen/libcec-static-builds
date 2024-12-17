@@ -38,6 +38,7 @@ env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build --target inst
 
 # same for libcec
 cmake \
+ -D"SKIP_PYTHON_WRAPPER=1" \
  -D"p8-platform_ROOT=$PLATFORMBUILD" \
  -D"p8-platform_DIR=$PLATFORMBUILD/build" \
  -D"p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" \
