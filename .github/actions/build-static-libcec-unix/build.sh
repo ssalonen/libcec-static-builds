@@ -60,7 +60,7 @@ cmake \
  -D"p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" \
  -D"p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" \
  -DCMAKE_VERBOSE_MAKEFILE=ON -DCMAKE_INSTALL_PREFIX=build \
- --build build --target install
+ --build build
 
 find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
 find include -name '*.h' -print -exec cp --parents {} dist \;
