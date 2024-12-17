@@ -42,9 +42,11 @@ cmake \
  -D"p8-platform_INCLUDE_DIRS=$PLATFORMBUILD/include" \
  -D"p8-platform_LIBRARY=$PLATFORMBUILD/build/libp8-platform.a" \
  --trace -S . -B build -DCMAKE_VERBOSE_MAKEFILE=ON "${args[@]}"
-cmake --build build
+
 
 mkdir -p dist/include
 ls -R build
 find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
 find include -name '*.h' -print -exec cp --parents {} dist \;
+
+cmake --build build
