@@ -142,6 +142,7 @@ jobs:
       
       container:
           image: ${{ matrix.targets.docker_image }}
+          options: --user 1001
         
       steps:
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
