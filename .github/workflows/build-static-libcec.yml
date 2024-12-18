@@ -152,6 +152,11 @@ jobs:
           with:
             detached: true
 
+        - name: Checkout repo
+          uses: actions/checkout@v4
+        # for git-describe to work, needed to embed version from git tag
+        - run: git fetch --prune --unshallow --tags --recurse-submodules=no
+
         - name: Install libudev-dev for device detection support
           run: |
             dpkg --add-architecture ${{ matrix.targets.deb_arch }}
