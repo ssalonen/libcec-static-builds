@@ -10,7 +10,7 @@ endif()
 
 # udev
 if (HAVE_LIBUDEV)
-  list(APPEND cec_depends udev)
+  list(APPEND cec_depends "${UDEV_LIBRARIES}")
 endif()
 
 # xrandr
