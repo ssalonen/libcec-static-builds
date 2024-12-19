@@ -11,7 +11,7 @@ endif()
 # udev
 if (HAVE_LIBUDEV)
 message(STATUS "udev libs: ${UDEV_LIBRARIES}")
-  list(APPEND cec_depends "${UDEV_LIBRARIES}")
+  list(APPEND cec_depends udev1)
 endif()
 
 # xrandr
