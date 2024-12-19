@@ -37,7 +37,7 @@ cmake -DCMAKE_INSTALL_PREFIX=platform_build -S src/platform -B platform_build
 env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build --target install
 
 # same for libcec
-cmake \
+cmake --trace \
  -D"SKIP_PYTHON_WRAPPER=1" \
  -D"p8-platform_ROOT=$PLATFORMBUILD" \
  -D"p8-platform_DIR=$PLATFORMBUILD/build" \
@@ -48,14 +48,9 @@ cmake \
 
 
 mkdir -p dist/include
-ls -R build
-ls -R platform_build
-ls -R src/platform
 
-find . -type d -name p8-platform
-find . -type f -name os.h
-
-env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build build --target install
+env "p8-platform_ROOT=$PLATFORMBUILD" \
+  cmake --build build --target install
  
 
 find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
