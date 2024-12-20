@@ -90,12 +90,15 @@ else()
   check_function_exists(flock HAVE_FLOCK)
 
   # udev
-  pkg_check_modules(UDEV udev)
+  # IMPORTED_TARGET can deal with custom directories (e.g. arch specific library location)
+  # Will define PkgConfig::UDEV variables
+  # https://stackoverflow.com/a/57224542
+  pkg_check_modules(UDEV IMPORTED_TARGET udev)
   if (UDEV_FOUND)
     set(PLATFORM_LIBREQUIRES "${PLATFORM_LIBREQUIRES} ${UDEV_LIBRARIES}")
   else()
     # fall back to finding libudev.pc
-    pkg_check_modules(UDEV libudev)
+    pkg_check_modules(UDEV IMPORTED_TARGET libudev)
     if (UDEV_FOUND)
       set(PLATFORM_LIBREQUIRES "${PLATFORM_LIBREQUIRES} libudev")
     endif()
