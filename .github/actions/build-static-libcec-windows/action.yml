@@ -45,7 +45,8 @@ runs:
 
         echo 'setting up build environment...'
         mkdir -p '${{ github.workspace }}\libcec\build'
-        mkdir -p '${{ github.workspace }}\libcec\dist'
+        mkdir -p '${{ github.workspace }}\libcec\static-dist'
+        mkdir -p '${{ github.workspace }}\libcec\dynamic-dist'
 
         [string[]] $script_paths = @(
           '${{ github.workspace }}\libcec\windows\build-lib.cmd'
