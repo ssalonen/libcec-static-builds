@@ -69,7 +69,15 @@ env "p8-platform_ROOT=$PLATFORMBUILD" \
   cmake --build build --target install
 
 
-mkdir -p dist/include
+mkdir -p dynamic-dist/include
+mkdir -p static-dist/include
 
-find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
-find include -name '*.h' -print -exec cp --parents {} dist \;
+find platform_build \( -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dynamic-dist \;
+find platform_build/include -name '*.h' -print -exec cp --parents {} dynamic-dist \;
+find build \( -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dynamic-dist \;
+find include -name '*.h' -print -exec cp --parents {} dynamic-dist \;
+
+find platform_build \( -name '*.a' \) -print -exec cp {} static-dist \;
+find platform_build/include -name '*.h' -print -exec cp --parents {} static-dist \;
+find build \( -name '*.a' \) -print -exec cp {} static-dist \;
+find include -name '*.h' -print -exec cp --parents {} static-dist \;

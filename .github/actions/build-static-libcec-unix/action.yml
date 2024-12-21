@@ -35,7 +35,12 @@ runs:
       env:
         HAVE_LINUX_API: "${{ inputs.have_linux_api }}"
 
-    - name: Set output
-      id: set_output
+    - name: Set static output
+      id: set_output_static
       shell: bash
-      run: echo "binary_path=./libcec/dist" >> $GITHUB_OUTPUT
+      run: echo "static_binary_path=./libcec/static-dist" >> $GITHUB_OUTPUT
+
+    - name: Set dynamic output
+      id: set_output_dynamic
+      shell: bash
+      run: echo "dynamic_binary_path=./libcec/dynamic-dist" >> $GITHUB_OUTPUT

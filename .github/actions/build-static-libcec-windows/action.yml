@@ -69,9 +69,13 @@ runs:
         }
 
         echo "copying binaries to dist..."
-        Get-ChildItem -Recurse -Path '${{ github.workspace }}\libcec\build' -Include *.lib,*.dll,*.pdb |
-          Copy-Item -Destination '${{ github.workspace }}\libcec\dist'
-        Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\include' -Destination '${{ github.workspace }}\libcec\dist'
+        Get-ChildItem -Recurse -Path '${{ github.workspace }}\libcec\build' -Include *.dll,*.pdb |
+          Copy-Item -Destination '${{ github.workspace }}\libcec\dynamic-dist'
+        Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\include' -Destination '${{ github.workspace }}\libcec\dynamic-dist'
+
+        Get-ChildItem -Recurse -Path '${{ github.workspace }}\libcec\build' -Include *.lib,*.pdb |
+          Copy-Item -Destination '${{ github.workspace }}\libcec\static-dist'
+        Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\include' -Destination '${{ github.workspace }}\libcec\static-dist'
 
         echo "build output"
         Get-ChildItem -Path ${{ github.workspace }}\libcec -Recurse –File
@@ -85,7 +89,12 @@ runs:
         echo "libcec\build\cmake\amd64\src\libcec\CMakeFiles\cec.dir\flags.make"
         get-content -Path ${{ github.workspace }}\libcec\build\cmake\amd64\src\libcec\CMakeFiles\cec.dir\flags.make
 
-    - name: Set output
-      id: set_output
+    - name: Set dynamic output
+      id: set_output_dynamic
       shell: bash
-      run: echo "binary_path=${{ github.workspace }}\libcec\dist" >> $GITHUB_OUTPUT
+      run: echo "dynamic_binary_path=${{ github.workspace }}\libcec\dynamic-dist" >> $GITHUB_OUTPUT
+
+    - name: Set static output
+      id: set_output_static
+      shell: bash
+      run: echo "static_binary_path=${{ github.workspace }}\libcec\static-dist" >> $GITHUB_OUTPUT
