@@ -77,20 +77,15 @@ runs:
           Copy-Item -Destination '${{ github.workspace }}\libcec\static-dist'
         Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\include' -Destination '${{ github.workspace }}\libcec\static-dist'
 
-        echo "build output"
+        Get-ChildItem -Recurse -Path '${{ github.workspace }}\libcec\build' -Include *.dll,*.pdb |
+          Copy-Item -Destination '${{ github.workspace }}\libcec\dynamic-dist'
+        Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\include' -Destination '${{ github.workspace }}\libcec\dynamic-dist'
+
+        echo "build output (for debug)"
         Get-ChildItem -Path ${{ github.workspace }}\libcec -Recurse –File
 
-        echo "libcec\build\cmake\amd64\Makefile"
-        get-content -Path ${{ github.workspace }}\libcec\build\cmake\amd64\Makefile
-
-        echo "libcec\build\cmake\amd64\src\libcec\CMakeFiles\cec.dir\build.make"
-        get-content -Path ${{ github.workspace }}\libcec\build\cmake\amd64\src\libcec\CMakeFiles\cec.dir\build.make
-
-        echo "libcec\build\cmake\amd64\src\libcec\CMakeFiles\cec.dir\flags.make"
-        get-content -Path ${{ github.workspace }}\libcec\build\cmake\amd64\src\libcec\CMakeFiles\cec.dir\flags.make
-
     - name: Set dynamic output
-      id: set_output_dynamic
+      id: set_output
       shell: bash
       run: |
         echo "dynamic_binary_path=${{ github.workspace }}\libcec\dynamic-dist" >> $GITHUB_OUTPUT
