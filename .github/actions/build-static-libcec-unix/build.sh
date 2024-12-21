@@ -76,10 +76,14 @@ mkdir -p static-dist/include
 
 find platform_build \( -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dynamic-dist \;
 find platform_build/include -name '*.h' -print -exec cp --parents {} dynamic-dist \;
+mv -a dynamic-dist/platform_build/include/* dynamic-dist/include/
+rmdir dynamic-dist/platform_build/include
 find build \( -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dynamic-dist \;
 find include -name '*.h' -print -exec cp --parents {} dynamic-dist \;
 
 find platform_build -name '*.a' -print -exec cp {} static-dist \;
 find platform_build/include -name '*.h' -print -exec cp --parents {} static-dist \;
+mv -a dynamic-dist/platform_build/include/* dynamic-dist/include/
+rmdir dynamic-dist/platform_build/include
 find build -name '*.a' -print -exec cp {} static-dist \;
 find include -name '*.h' -print -exec cp --parents {} static-dist \;
