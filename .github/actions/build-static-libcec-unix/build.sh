@@ -26,16 +26,14 @@ cd "$path"
 
 # if /opt/toolchain.cmake exists, it is used for cmake cross-compilation
 # cross-rs docker images have this
-toolchain_arg=()
-[ -f /opt/toolchain.cmake ] && toolchain_arg=( '-DCMAKE_TOOLCHAIN_FILE=/opt/toolchain.cmake')
-echo "toolchain_arg: ${toolchain_arg[@]}"
+[ -f /opt/toolchain.cmake ] && toolchain_arg=( '-DCMAKE_TOOLCHAIN_FILE=/opt/toolchain.cmake' )
 
 # first p8-platform
 mkdir platform_build
 PLATFORMBUILD=$(readlink -f platform_build)
 cmake \
   -DCMAKE_INSTALL_PREFIX=platform_build \
-  "${toolchain_arg[@]}" \
+  "${toolchain_arg:+$toolchain_arg}" \
   -S src/platform -B platform_build
 # Build & install
 env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build --target install
