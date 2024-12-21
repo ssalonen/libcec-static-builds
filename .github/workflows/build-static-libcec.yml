@@ -118,7 +118,7 @@ jobs:
             if-no-files-found: error
     
     build-linux-arm:
-      name: "build-linux-arm (${{ matrix.targets.deb_arch }})"
+      name: "build-linux-arm (${{ matrix.targets.deb_arch }}, ${{ matrix.build_type }})"
       runs-on: ubuntu-latest
 
       strategy:
