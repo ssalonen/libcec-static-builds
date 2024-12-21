@@ -61,7 +61,7 @@ echo "libcec_define_args: ${libcec_define_args[@]}"
 
 cmake \
  "${libcec_define_args[@]}" \
- "${toolchain_arg[@]}" \
+ "${toolchain_arg:+$toolchain_arg}" \
  -S . -B build
 
 
