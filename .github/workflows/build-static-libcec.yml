@@ -43,11 +43,18 @@ jobs:
             build_type: ${{ matrix.build_type }}
             visual_studio_version: ${{ env.visual_studio_version }}
 
-        - name: Upload build artifacts
+        - name: Upload build artifacts (static)
           uses: actions/upload-artifact@v4
           with:
-            name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-pc-windows-msvc-${{ matrix.build_type }}
-            path: ${{ steps.build_libcec.outputs.binary_path }}
+            name: libcec-v${{ env.libcec_version }}-static-${{ matrix.arch }}-pc-windows-msvc-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.static_binary_path }}
+            if-no-files-found: error
+
+        - name: Upload build artifacts (dynamic)
+          uses: actions/upload-artifact@v4
+          with:
+            name: libcec-v${{ env.libcec_version }}-dynamic-${{ matrix.arch }}-pc-windows-msvc-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.dynamic_binary_path }}
             if-no-files-found: error
 
     build-macos:
@@ -69,15 +76,21 @@ jobs:
           with:
             build_type: ${{ matrix.build_type }}
 
-        - name: Upload build artifacts
+        - name: Upload build artifacts (static)
           uses: actions/upload-artifact@v4
           with:
-            name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-apple-darwin-${{ matrix.build_type }}
-            path: ${{ steps.build_libcec.outputs.binary_path }}
+            name: libcec-v${{ env.libcec_version }}-static-${{ matrix.arch }}-apple-darwin-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.static_binary_path }}
+            if-no-files-found: error
+
+        - name: Upload build artifacts (dynamic)
+          uses: actions/upload-artifact@v4
+          with:
+            name: libcec-v${{ env.libcec_version }}-dynamic-${{ matrix.arch }}-apple-darwin-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.dynamic_binary_path }}
             if-no-files-found: error
 
     build-linux:
-      if: ${{ github.event_name == 'workflow_dispatch' && !inputs.docker_only }}
       runs-on: ubuntu-latest
 
       strategy:
@@ -110,11 +123,18 @@ jobs:
             build_type: ${{ matrix.build_type }}
             have_linux_api: true
 
-        - name: Upload build artifacts
+        - name: Upload build artifacts (static)
           uses: actions/upload-artifact@v4
           with:
-            name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
-            path: ${{ steps.build_libcec.outputs.binary_path }}
+            name: libcec-v${{ env.libcec_version }}-static-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.static_binary_path }}
+            if-no-files-found: error
+
+        - name: Upload build artifacts (dynamic)
+          uses: actions/upload-artifact@v4
+          with:
+            name: libcec-v${{ env.libcec_version }}-dynamic-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.dynamic_binary_path }}
             if-no-files-found: error
 
     build-linux-arm:
@@ -160,11 +180,18 @@ jobs:
             build_type: ${{ matrix.build_type }}
 
 
-        - name: Upload build artifacts
+        - name: Upload build artifacts (static)
           uses: actions/upload-artifact@v4
           with:
-            name: libcec-v${{ env.libcec_version }}-${{ matrix.targets.rust_target }}-${{ matrix.build_type }}
-            path: ${{ steps.build_libcec.outputs.binary_path }}
+            name: libcec-v${{ env.libcec_version }}-static-${{ matrix.targets.rust_target }}-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.static_binary_path }}
+            if-no-files-found: error
+
+        - name: Upload build artifacts (dynamic)
+          uses: actions/upload-artifact@v4
+          with:
+            name: libcec-v${{ env.libcec_version }}-dynamic-${{ matrix.targets.rust_target }}-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.dynamic_binary_path }}
             if-no-files-found: error
 
     release:
