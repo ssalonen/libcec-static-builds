@@ -68,8 +68,9 @@ cmake \
 env "p8-platform_ROOT=$PLATFORMBUILD" \
   cmake --build build --target install
 
+ls -R platform_build
 
-mkdir -p dist/include
+mkdir -p static-dist/include
 
-find build \( -name '*.a' -o -name '*.so' -o -name '*.dylib' \) -print -exec cp {} dist \;
-find include -name '*.h' -print -exec cp --parents {} dist \;
+find build -name 'libcec-static.a' -print -exec cp {} static-dist \;
+find include -name '*.h' -print -exec cp --parents {} static-dist \;
