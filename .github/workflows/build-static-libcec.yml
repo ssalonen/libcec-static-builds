@@ -119,7 +119,6 @@ jobs:
     
     build-linux-arm:
       name: "build-linux-arm (${{ matrix.targets.deb_arch }})"
-      if: ${{ github.event_name == 'workflow_dispatch' && inputs.docker_only }}
       runs-on: ubuntu-latest
 
       strategy:
