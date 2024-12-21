@@ -77,12 +77,12 @@ runs:
         Get-ChildItem -Recurse -Path '${{ github.workspace }}\libcec\build' -Include *.lib,*.pdb |
           Copy-Item -Destination '${{ github.workspace }}\libcec\static-dist'
         Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\include' -Destination '${{ github.workspace }}\libcec\static-dist'
-        Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\${{ inputs.arch }}\include' -Destination '${{ github.workspace }}\libcec\static-dist'
+        Copy-Item -Path '${{ github.workspace }}\libcec\build\${{ inputs.arch }}\include\p8-platform' -Destination '${{ github.workspace }}\libcec\static-dist\include'
 
         Get-ChildItem -Recurse -Path '${{ github.workspace }}\libcec\build' -Include *.dll,*.pdb |
           Copy-Item -Destination '${{ github.workspace }}\libcec\dynamic-dist'
         Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\include' -Destination '${{ github.workspace }}\libcec\dynamic-dist'
-        Copy-Item -Recurse -Path '${{ github.workspace }}\libcec\${{ inputs.arch }}\include' -Destination '${{ github.workspace }}\libcec\dynamic-dist'
+        Copy-Item -Path '${{ github.workspace }}\libcec\build\${{ inputs.arch }}\include\p8-platform' -Destination '${{ github.workspace }}\libcec\dynamic-dist\include'
 
         echo "build output (for debug)"
         Get-ChildItem -Path ${{ github.workspace }}\libcec -Recurse –File
