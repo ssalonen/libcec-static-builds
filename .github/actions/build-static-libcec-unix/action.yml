@@ -13,9 +13,12 @@ inputs:
     default: false
 
 outputs:
-  binary_path:
-    description: The freshly-built binary path.
-    value: ${{ steps.set_output.outputs.binary_path }}
+  static_binary_path:
+    description: The freshly-built binary path for static build
+    value: ${{ steps.set_output.outputs.static_binary_path }}
+  dynamic_binary_path:
+    description: The freshly-built binary path for dynamic build
+    value: ${{ steps.set_output.outputs.dynamic_binary_path }}
 
 runs:
   using: composite
@@ -28,14 +31,16 @@ runs:
     # for git-describe to work, needed to embed version from git tag
     - run: cd libcec && git fetch --prune --unshallow --tags --recurse-submodules=no
       shell: bash
- 
+
     - name: Build libcec
       shell: bash
       run: $GITHUB_ACTION_PATH/build.sh './libcec' '${{ inputs.build_type }}'
       env:
         HAVE_LINUX_API: "${{ inputs.have_linux_api }}"
 
-    - name: Set output
+    - name: Set static output
       id: set_output
       shell: bash
-      run: echo "binary_path=./libcec/dist" >> $GITHUB_OUTPUT
+      run: |
+        echo "static_binary_path=./libcec/static-dist" >> $GITHUB_OUTPUT
+        echo "dynamic_binary_path=./libcec/dynamic-dist" >> $GITHUB_OUTPUT
