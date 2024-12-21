@@ -116,7 +116,7 @@ jobs:
             name: libcec-v${{ env.libcec_version }}-${{ matrix.arch }}-unknown-linux-gnu-${{ matrix.build_type }}
             path: ${{ steps.build_libcec.outputs.binary_path }}
             if-no-files-found: error
-    
+
     build-linux-arm:
       name: "build-linux-arm (${{ matrix.targets.deb_arch }}, ${{ matrix.build_type }})"
       runs-on: ubuntu-latest
@@ -124,19 +124,18 @@ jobs:
       strategy:
         fail-fast: true
         matrix:
-          targets: 
-            - docker_image: ghcr.io/cross-rs/armv7-unknown-linux-gnueabihf:main
+          targets:
+            - rust_target: armv7-unknown-linux-gnueabihf
               deb_arch: armhf
-            - docker_image: ghcr.io/cross-rs/arm-unknown-linux-gnueabi:main
+            - rust_target: arm-unknown-linux-gnueabi
               deb_arch: armel
-            - docker_image: ghcr.io/cross-rs/aarch64-unknown-linux-gnu:main
+            - rust_target: aarch64-unknown-linux-gnu
               deb_arch: arm64
           build_type: [release, debug]
-      
+
       container:
-          image: ${{ matrix.targets.docker_image }}
-          #options: --user 1001
-        
+          image: ghcr.io/cross-rs/${{ matrix.targets.rust_target }}:main
+
       steps:
         # Enable tmate debugging of manually-triggered workflows if the input option was provided
         - name: Setup tmate session
@@ -159,6 +158,14 @@ jobs:
           uses: ./.github/actions/build-static-libcec-unix
           with:
             build_type: ${{ matrix.build_type }}
+
+
+        - name: Upload build artifacts
+          uses: actions/upload-artifact@v4
+          with:
+            name: libcec-v${{ env.libcec_version }}-${{ matrix.targets.rust_target }}-${{ matrix.build_type }}
+            path: ${{ steps.build_libcec.outputs.binary_path }}
+            if-no-files-found: error
 
     release:
       runs-on: ubuntu-latest
