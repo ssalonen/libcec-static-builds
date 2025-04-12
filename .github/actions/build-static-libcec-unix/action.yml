@@ -23,7 +23,7 @@ outputs:
 runs:
   using: composite
   steps:
-    - name: Checkout upstream libcec 6.0.2
+    - name: Checkout upstream libcec
       uses: actions/checkout@v4
       with:
         path: libcec

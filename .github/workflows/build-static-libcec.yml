@@ -4,8 +4,8 @@ permissions:
   contents: write
 
 env:
-  visual_studio_version: 2019
-  libcec_version: 6.0.2  # version of libcec this fork is based on
+  visual_studio_version: 2022
+  libcec_version: 7.0.0  # version of libcec this fork is based on
 
 on:
   workflow_dispatch:
