@@ -5,7 +5,7 @@ permissions:
 
 env:
   visual_studio_version: 2022
-  libcec_version: 7.0.0  # version of libcec this fork is based on
+  libcec_version: 7.1.1  # version of libcec this fork is based on
 
 on:
   workflow_dispatch:
