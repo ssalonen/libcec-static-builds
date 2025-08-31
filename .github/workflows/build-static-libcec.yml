@@ -212,7 +212,7 @@ jobs:
         - name: Publish release
           uses: softprops/action-gh-release@v2
           with:
-            tag_name: libcec-v${{ env.libcec_version }}-202504-1
+            tag_name: libcec-v${{ env.libcec_version }}-202508-1
             files: release/*.zip
             fail_on_unmatched_files: true
             make_latest: true
