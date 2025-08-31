@@ -65,7 +65,7 @@ cmake \
  -S . -B build
 
 
-env "p8-platform_ROOT=$PLATFORMBUILD" \
+env "p8-platform_ROOT=$PLATFORMBUILD" "DESTDIR=build" \
   cmake --build build --target install
 
 ls -R build
