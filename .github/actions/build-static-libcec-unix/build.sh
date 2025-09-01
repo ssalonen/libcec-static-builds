@@ -4,7 +4,6 @@ set -euxo pipefail
 
 path="$1"
 build_type="$2"
-HAVE_LINUX_API="$3" # 0 or 1
 
 case "$build_type" in
   'debug')

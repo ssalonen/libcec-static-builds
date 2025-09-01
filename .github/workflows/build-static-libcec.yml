@@ -178,6 +178,7 @@ jobs:
           uses: ./.github/actions/build-static-libcec-unix
           with:
             build_type: ${{ matrix.build_type }}
+            have_linux_api: "1"
 
 
         - name: Upload build artifacts (static)
