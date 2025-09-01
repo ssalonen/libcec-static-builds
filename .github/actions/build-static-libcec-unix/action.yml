@@ -8,9 +8,8 @@ inputs:
 
   have_linux_api:
     description: Whether to build libcec with Linux CEC Framework support
-    type: boolean
     required: false
-    default: false
+    default: "0"
 
 outputs:
   static_binary_path:

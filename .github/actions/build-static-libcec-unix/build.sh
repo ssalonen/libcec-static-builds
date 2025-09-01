@@ -42,8 +42,8 @@ env "p8-platform_ROOT=$PLATFORMBUILD" cmake --build platform_build --target inst
 
 # libcec next
 libcec_define_args=()
-[[ "$HAVE_LINUX_API" = "true" ]] && libcec_define_args+=( '-DHAVE_LINUX_API=1' )
 libcec_define_args+=(  \
+ -DHAVE_LINUX_API=$HAVE_LINUX_API \
  -DSKIP_PYTHON_WRAPPER=1 \
  -D"p8-platform_ROOT=$PLATFORMBUILD" \
  -D"p8-platform_DIR=$PLATFORMBUILD/lib/p8-platform" \
