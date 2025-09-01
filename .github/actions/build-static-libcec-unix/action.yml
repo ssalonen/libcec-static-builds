@@ -33,9 +33,7 @@ runs:
 
     - name: Build libcec
       shell: bash
-      run: $GITHUB_ACTION_PATH/build.sh './libcec' '${{ inputs.build_type }}'
-      env:
-        HAVE_LINUX_API: "${{ inputs.have_linux_api }}"
+      run: $GITHUB_ACTION_PATH/build.sh './libcec' '${{ inputs.build_type }}' '${{ inputs.have_linux_api }}'
 
     - name: Set static output
       id: set_output
