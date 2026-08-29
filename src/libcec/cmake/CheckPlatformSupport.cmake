@@ -105,6 +105,13 @@ else()
     endif()
   endif()
 
+  # pkg_check_modules can find libudev through a prior non-imported lookup while
+  # leaving PkgConfig::UDEV undefined. The library targets below link that target,
+  # so ensure it exists whenever udev was found.
+  if(UDEV_FOUND AND NOT TARGET PkgConfig::UDEV)
+    pkg_check_modules(UDEV IMPORTED_TARGET libudev)
+  endif()
+
   # xrandr
   if(NOT DEFINED HAVE_RANDR OR HAVE_RANDR)
     check_include_files("X11/Xlib.h;X11/Xatom.h;X11/extensions/Xrandr.h" HAVE_RANDR_HEADERS)

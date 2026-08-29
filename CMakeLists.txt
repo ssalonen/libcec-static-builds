@@ -178,7 +178,9 @@ endif()
 # graph. The crate has no dependencies, so --offline works and no vendored
 # registry or network access is needed - which is what lets the Debian package
 # use this option directly rather than driving the build itself.
-if(ENABLE_RUST_LIB AND NOT DISABLE_CLIENT)
+# The Rust crate is a library binding, not a client application. Keep it usable
+# in minimal/static builds where DISABLE_CLIENT omits the CEC CLI programs.
+if(ENABLE_RUST_LIB)
   find_program(CARGO_EXECUTABLE NAMES cargo)
   if(NOT CARGO_EXECUTABLE)
     message(FATAL_ERROR "ENABLE_RUST_LIB requires cargo on PATH")
