@@ -1,0 +1,52 @@
+name: build-libcec-windows
+description: Builds libCEC 8 static and dynamic libraries on Windows.
+
+inputs:
+  build_type:
+    description: The build type, either "release" or "debug".
+    required: true
+  visual_studio_version:
+    description: The Visual Studio version to use.
+    required: true
+
+outputs:
+  static_binary_path:
+    description: The freshly-built binary path for static build
+    value: ${{ steps.set_output.outputs.static_binary_path }}
+  dynamic_binary_path:
+    description: The freshly-built binary path for dynamic build
+    value: ${{ steps.set_output.outputs.dynamic_binary_path }}
+
+runs:
+  using: composite
+  steps:
+    - name: Setup developer command prompt
+      uses: ilammy/msvc-dev-cmd@v1
+      with:
+        arch: x64
+
+    - name: Build libCEC 8
+      shell: pwsh
+      run: |
+        $ErrorActionPreference = 'Stop'
+        $configuration = if ('${{ inputs.build_type }}' -eq 'debug') { 'Debug' } elseif ('${{ inputs.build_type }}' -eq 'release') { 'RelWithDebInfo' } else { throw 'invalid build type' }
+        $root = '${{ github.workspace }}'
+        cmake -S $root -B "$root/build" -G 'NMake Makefiles' `
+          "-DCMAKE_BUILD_TYPE=$configuration" `
+          "-DCMAKE_INSTALL_PREFIX=$root/install" `
+          -DDISABLE_CLIENT=ON -DSKIP_PYTHON_WRAPPER=1 -DDISABLE_BUILDINFO=ON
+        cmake --build "$root/build" --parallel
+        cmake --install "$root/build"
+
+        New-Item -ItemType Directory -Force "$root/static-dist/include", "$root/dynamic-dist/include" | Out-Null
+        Get-ChildItem -Recurse "$root/install" -Filter *.lib | Copy-Item -Destination "$root/static-dist"
+        Get-ChildItem -Recurse "$root/install" -Filter *.dll | Copy-Item -Destination "$root/dynamic-dist"
+        Copy-Item -Recurse "$root/install/include/*" "$root/static-dist/include"
+        Copy-Item -Recurse "$root/install/include/*" "$root/dynamic-dist/include"
+
+    - name: Set output paths
+      id: set_output
+      shell: bash
+      run: |
+        echo "dynamic_binary_path=${{ github.workspace }}/dynamic-dist" >> "$GITHUB_OUTPUT"
+        echo "static_binary_path=${{ github.workspace }}/static-dist" >> "$GITHUB_OUTPUT"

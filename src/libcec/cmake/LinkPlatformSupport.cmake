@@ -9,7 +9,7 @@ endif()
 
 # udev
 if (HAVE_LIBUDEV)
-  list(APPEND cec_depends udev)
+  list(APPEND cec_depends PkgConfig::UDEV)
 endif()
 
 # xrandr
